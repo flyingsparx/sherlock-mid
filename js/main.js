@@ -11,19 +11,20 @@ var multiplayer;
 var last_successful_request = 0;
 
 var MID_MODEL = [
-    "conceptualise a ~ place ~ P that is a locatable thing",
-    "conceptualise a ~ city ~ C",
+    "conceptualise a ~ MID thing ~ that is an entity",
+    "conceptualise a ~ place ~ P that is a locatable thing and is an MID thing",
+    "conceptualise a ~ city ~ C that is an MID thing",
     "conceptualise the place P ~ is located in ~ the city C",
-    "conceptualise a ~ character ~ C that has the place P as ~ shrine ~",
-    "conceptualise a ~ actor ~ A",
-    "conceptualise a ~ spaceship ~ S that has the place P as ~ fuelling station ~",
+    "conceptualise a ~ character ~ C that is an MID thing and has the place P as ~ shrine ~",
+    "conceptualise a ~ actor ~ A that is an MID thing",
+    "conceptualise a ~ spaceship ~ S that is an MID thing has the place P as ~ fuelling station ~",
     "conceptualise the spaceship S ~ is owned by ~ the character C",
     "conceptualise the character C ~ owns ~ the spaceship S and ~ is played by ~ the actor A",
     "conceptualise the actor A ~ plays ~ the character C",
-    "conceptualise an ~ organisation ~ O has the place P as ~ base ~",
-    "conceptualise an ~ alien ~ A",
+    "conceptualise an ~ organisation ~ O that is an MID thing and has the place P as ~ base ~",
+    "conceptualise an ~ alien ~ A that is an MID thing",
     "conceptualise the alien A ~ is created by ~ the character C",
-    "conceptualise a ~ programme ~ P that has the city C as ~ filming location ~",
+    "conceptualise a ~ programme ~ P that is an MID thing has the city C as ~ filming location ~",
 
     "there is an actor named 'Martin Freeman'",
     "there is an actor named 'John Barrowman'",
@@ -34,12 +35,29 @@ var MID_MODEL = [
     "there is a character named 'Captain Jack'",
     "there is a character named 'John Watson'",
     "there is a character named 'Clara Oswald'",
+    "there is an organisation named 'Torchwood'",
     "there is an alien named 'dalek'",
     "there is a city named 'Cardiff'",
     "there is a city named 'London'",
     "there is a place named 'Cardiff Bay'",
     "there is a place named 'Baker Street'",
-    "there is a spaceship named 'TARDIS'"
+    "there is a spaceship named 'TARDIS'",
+
+    "there is a rule named r1 that has 'if the character C ~ owns ~ the spaceship S then the spaceship S ~ is owned by ~ the character C' as instruction",
+    "there is a rule named r2 that has 'if the spaceship S ~ is owned by ~ the character C then the character C ~ owns ~ the spaceship S' as instruction",
+
+    // Uncomment the 3 lines below to enable multiplayer using Mycroft as the relay:
+    //
+    //"there is an agent named 'Mycroft' that has 'http://mycroft.cenode.io' as address",
+    //"there is a tell policy named 'p2' that has 'true' as enabled and has the agent 'Mycroft' as target",
+    //"there is a listen policy named 'p4' that has 'true' as enabled and has the agent 'Mycroft' as target",
+
+    "conceptualise a ~ question ~ Q that has the value V as ~ text ~ and has the value W as ~ value ~ and has the value X as ~ relationship ~",
+    "conceptualise the question Q ~ concerns ~ the MID thing C",
+
+    "there is a question named q1 that concerns the character 'Doctor Who' and has 'owns' as relationship and has 'What spaceship does Doctor Who own?' as text",
+    "there is a question named q2 that concerns the spaceship 'TARDIS' and has 'is owned by' as relationship and has 'Which character owns the TARDIS?' as text",
+    "there is a question named q3 that concerns the organisation 'Torchwood' and has 'base' as value and has 'Where is Torchwood\\'s base located?' as text"
 ];
 
 var settings = {
@@ -55,13 +73,6 @@ var user = {
     input_counter : 0,
     score : 0,
     current_screen : "login"
-};
-
-var log = {
-    recording_presses : false,
-    keypresses : 0,
-    start_time : 0,
-    end_time : 0
 };
 
 var ui = {
@@ -207,8 +218,6 @@ function key_up(e){
         return false;
     }
     if(e.keyCode == 13){
-        log.recording_presses = false;
-        log.end_time = parseInt(new Date().getTime()/1000);
         send();
     }
     else if(e.keyCode == 38){
@@ -232,15 +241,6 @@ function key_up(e){
         e.preventDefault();
         return false;
     }
-    else{
-        if(log.recording_presses == false){
-            log.recording_presses = true;
-            log.start_time = parseInt(new Date().getTime()/1000);
-            log.keypresses = 0;
-        }
-        log.keypresses++;
-    }
-
     if(ui.inputs.autofill.checked == true){
         ui.inputs.guess.value = node.guess_next(ui.inputs.text.value);
     }
@@ -301,9 +301,6 @@ function confirm_card(id, content){
 
     add_card("Yes.", true, null, user.id);
     var card = "there is a tell card named 'msg_{uid}' that has '"+content.replace(/'/g, "\\'")+"' as content and is to the agent '"+node.get_agent_name().replace(/'/g, "\\'")+"' and is from the individual '"+user.id+"' and has the timestamp '{now}' as timestamp";
-    card+=" and has '"+log.keypresses+"' as number of keystrokes";
-    card+=" and has '"+log.end_time+"' as submit time";
-    card+=" and has '"+log.start_time+"' as start time";
 
     node.add_sentence(card);
     setTimeout(function(){
@@ -477,7 +474,7 @@ function check_answers(ins){
         }
     }
     for(var i = 0; i < user.questions.length ; i++){
-        ui.info.questions.innerHTML += '<li onclick="alert(\''+user.questions[i].text+'\');" class="response question '+get_question_state(user.questions[i])+'">'+(i+1)+'</li>';
+        ui.info.questions.innerHTML += '<li onclick="alert(\''+user.questions[i].text.replace(/'/g, "\\'")+'\');" class="response question '+get_question_state(user.questions[i])+'">'+(i+1)+'</li>';
     }
 }
 
