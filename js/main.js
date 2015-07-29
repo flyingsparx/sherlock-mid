@@ -30,7 +30,7 @@ var MID_MODEL = [
     "there is an actor named 'John Barrowman'",
     "there is an actor named 'Jenna Coleman'",
     "there is a character named 'Davros'",
-    "there is a character named 'Doctor Who'",
+    "there is a character named 'The Doctor'",
     "there is a character named 'Ianto Jones'",
     "there is a character named 'Captain Jack'",
     "there is a character named 'John Watson'",
@@ -55,7 +55,7 @@ var MID_MODEL = [
     "conceptualise a ~ question ~ Q that has the value V as ~ text ~ and has the value W as ~ value ~ and has the value X as ~ relationship ~",
     "conceptualise the question Q ~ concerns ~ the MID thing C",
 
-    "there is a question named q1 that concerns the character 'Doctor Who' and has 'owns' as relationship and has 'What spaceship does Doctor Who own?' as text",
+    "there is a question named q1 that concerns the character 'The Doctor' and has 'owns' as relationship and has 'What spaceship does the Doctor own?' as text",
     "there is a question named q2 that concerns the spaceship 'TARDIS' and has 'is owned by' as relationship and has 'Which character owns the TARDIS?' as text",
     "there is a question named q3 that concerns the organisation 'Torchwood' and has 'base' as value and has 'Where is Torchwood\\'s base located?' as text"
 ];
