@@ -19,7 +19,7 @@ var MID_MODEL = [
     "conceptualise a ~ actor ~ A that is an MID thing",
     "conceptualise a ~ spaceship ~ S that is an MID thing has the place P as ~ fuelling station ~",
     "conceptualise the spaceship S ~ is owned by ~ the character C",
-    "conceptualise the character C ~ owns ~ the spaceship S and ~ is played by ~ the actor A",
+    "conceptualise the character C ~ owns ~ the spaceship S and ~ is played by ~ the actor A and ~ created ~ the alien D",
     "conceptualise the actor A ~ plays ~ the character C",
     "conceptualise an ~ organisation ~ O that is an MID thing and has the place P as ~ base ~",
     "conceptualise an ~ alien ~ A that is an MID thing",
@@ -36,7 +36,7 @@ var MID_MODEL = [
     "there is a character named 'John Watson'",
     "there is a character named 'Clara Oswald'",
     "there is an organisation named 'Torchwood'",
-    "there is an alien named 'dalek'",
+    "there is an alien named 'Dalek'",
     "there is a city named 'Cardiff'",
     "there is a city named 'London'",
     "there is a place named 'Cardiff Bay'",
@@ -45,6 +45,8 @@ var MID_MODEL = [
 
     "there is a rule named r1 that has 'if the character C ~ owns ~ the spaceship S then the spaceship S ~ is owned by ~ the character C' as instruction",
     "there is a rule named r2 that has 'if the spaceship S ~ is owned by ~ the character C then the character C ~ owns ~ the spaceship S' as instruction",
+    "there is a rule named r3 that has 'if the alien A ~ is created by ~ the character C then the character C ~ created ~ the alien A' as instruction",
+    "there is a rule named r4 that has 'if the actor A ~ plays ~ the character C then the character C ~ is played by ~ the actor A' as instruction",
 
     // Uncomment the 3 lines below to enable multiplayer using Mycroft as the relay:
     //
@@ -57,7 +59,14 @@ var MID_MODEL = [
 
     "there is a question named q1 that concerns the character 'The Doctor' and has 'owns' as relationship and has 'What spaceship does the Doctor own?' as text",
     "there is a question named q2 that concerns the spaceship 'TARDIS' and has 'is owned by' as relationship and has 'Which character owns the TARDIS?' as text",
-    "there is a question named q3 that concerns the organisation 'Torchwood' and has 'base' as value and has 'Where is Torchwood\\'s base located?' as text"
+    "there is a question named q3 that concerns the organisation 'Torchwood' and has 'base' as value and has 'Where is Torchwood\\'s base located?' as text",
+    "there is a question named q4 that concerns the alien 'Dalek' and has 'is created by' as relationship and has 'Who created the Daleks?' as text",
+    "there is a question named q5 that concerns the character 'Davros' and has 'created' as relationship and has 'Which kind of alien was created by Davros?' as text",
+    "there is a question named q6 that concerns the character 'Clara Oswald' and has 'is played by' as relationship and has 'Who plays Clara Oswald?' as text",
+    "there is a question named q7 that concerns the actor 'Jenna Coleman' and has 'plays' as relationship and has 'What character is played by Jenna Coleman?' as text",
+    "there is a question named q8 that concerns the character 'Captain Jack' and has 'is played by' as relationship and has 'Who plays Captain Jack in Doctor Who and Torchwood?' as text",
+    "there is a question named q9 that concerns the actor 'John Barrowman' and has 'plays' as relationship and has 'What character is played by John Barrowman?' as text",
+    "there is a question named q10 that concerns the spaceship 'TARDIS' and has 'fuelling station' as value and has 'Where did the TARDIS refuel in the episode \\'Boom Town\\'?' as text"
 ];
 
 var settings = {
