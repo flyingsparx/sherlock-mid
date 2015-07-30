@@ -41,6 +41,8 @@ var MID_MODEL = [
     "there is an actor named 'Matt Smith'",
     "there is an actor named 'Peter Capaldi'",
     "there is an actor named 'Lis Sladen'",
+    "there is an actor named 'Billie Piper'",
+    "there is an actor named 'Karen Gillan'",
     "there is a character named 'Davros'",
     "there is a character named 'The Fourth Doctor'",
     "there is a character named 'The Tenth Doctor'",
@@ -52,7 +54,10 @@ var MID_MODEL = [
     "there is a character named 'John Watson'",
     "there is a character named 'Clara Oswald'",
     "there is a character named 'Sarah Jane Smith'",
+    "there is a character named 'Amy Pond'",
+    "there is a character named 'Rose Tyler'",
     "there is an organisation named 'Torchwood'",
+    "there is an organisation named 'UNIT'",
     "there is an alien named 'Dalek'",
     "there is an alien named 'Cybermen'",
     "there is an alien named 'Slitheen'",
@@ -66,6 +71,7 @@ var MID_MODEL = [
     "there is a city named 'London'",
     "there is a city named 'Bristol'",
     "there is a place named 'Cardiff Bay'",
+    "there is a place named 'Tower of London'",
     "there is a place named 'Baker Street'",
     "there is a spaceship named 'TARDIS'",
 
@@ -116,7 +122,11 @@ var MID_MODEL = [
     "there is a question named q23 that concerns the character 'The Fourth Doctor' and has 'is played by' as relationship and has 'Who played the Fourth Doctor?' as text",
     "there is a question named q24 that concerns the character 'The Tenth Doctor' and has 'is played by' as relationship and has 'Who played the Tenth Doctor?' as text",
     "there is a question named q25 that concerns the character 'The Eleventh Doctor' and has 'is played by' as relationship and has 'Who played the Eleventh Doctor?' as text",
-    "there is a question named q26 that concerns the character 'The Doctor' and has 'is played by' as relationship and has 'Who plays the Doctor?' as text"
+    "there is a question named q26 that concerns the character 'The Doctor' and has 'is played by' as relationship and has 'Who plays the Doctor?' as text",
+    "there is a question named q27 that concerns the organisation 'UNIT' and has 'base' as value and has 'Where is UNIT\\'s base located?' as text",
+    "there is a question named q28 that concerns the character 'Amy Pond' and has 'is played by' as relationship and has 'Who plays Amy Pond?' as text",
+    "there is a question named q29 that concerns the actor 'Billie Piper' and has 'plays' as relationship and has 'What Doctor Who character is played by Billie Piper?' as text",
+    "there is a question named q30 that concerns the character 'Rose Tyler' and has 'is played by' as relationship and has 'Who plays Rose Tyler?' as text"
 ];
 
 var settings = {
