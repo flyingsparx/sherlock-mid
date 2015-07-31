@@ -11,7 +11,7 @@ var multiplayer;
 var last_successful_request = 0;
 
 var MID_MODEL = [
-    "conceptualise a ~ MID thing ~ that is an entity",
+    "conceptualise a ~ MID thing ~ that is an entity and is an imageable thing",
     "conceptualise a ~ place ~ P that is a locatable thing and is an MID thing",
     "conceptualise a ~ city ~ C that is an MID thing",
     "conceptualise the place P ~ is located in ~ the city C",
@@ -72,7 +72,7 @@ var MID_MODEL = [
     "there is a place named 'Cardiff Bay'",
     "there is a place named 'Tower of London'",
     "there is a place named 'Baker Street'",
-    "there is a spaceship named 'TARDIS'",
+    "there is a spaceship named 'TARDIS' that has 'http://mid.cenode.io/media/tardis.png' as image",
 
     "there is a rule named r1 that has 'if the character C ~ owns ~ the spaceship S then the spaceship S ~ is owned by ~ the character C' as instruction",
     "there is a rule named r2 that has 'if the spaceship S ~ is owned by ~ the character C then the character C ~ owns ~ the spaceship S' as instruction",
@@ -89,9 +89,9 @@ var MID_MODEL = [
 
     // Uncomment the 3 lines below to enable multiplayer using Mycroft as the relay:
     //
-    //"there is an agent named 'Mycroft' that has 'http://mycroft.cenode.io' as address",
-    //"there is a tell policy named 'p1' that has 'true' as enabled and has the agent 'Mycroft' as target",
-    //"there is a listen policy named 'p2' that has 'true' as enabled and has the agent 'Mycroft' as target",
+    "there is an agent named 'Mycroft' that has 'http://mycroft.cenode.io' as address",
+    "there is a tell policy named 'p1' that has 'true' as enabled and has the agent 'Mycroft' as target",
+    "there is a listen policy named 'p2' that has 'true' as enabled and has the agent 'Mycroft' as target",
 
     "conceptualise a ~ question ~ Q that has the value V as ~ text ~ and has the value W as ~ value ~ and has the value X as ~ relationship ~",
     "conceptualise the question Q ~ concerns ~ the MID thing C",
@@ -201,6 +201,11 @@ function bind_listeners(){
     for(var i = 0; i < ui.view_changers.length; i++){
 	    ui.view_changers[i].onclick = function(e){change_view(e.target.getAttribute("data-view"));};
     }
+    ui.inputs.login_user_id.onkeyup = function(e){
+        if(e.keyCode == 13){
+            login();
+        }
+    };
 }
 
 function change_view(view){
@@ -495,7 +500,7 @@ function add_card(content, local, id, author, linked_content, card_type){
 
 function get_question_state(q){
     if(q.responses.length == 0){return "unanswered";}
-    else if(q.responses.length < 3){return "unconfident";}
+    else if(q.responses.length < 2){return "unconfident";}
     else{
         var responses = {};
         var response_vols = [];
