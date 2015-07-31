@@ -222,13 +222,12 @@ function login(){
         return;
     }
 
+    node = new CENode(MODELS.CORE, MID_MODEL);
     if(multiplayer){
-        node = new CENode(MODELS.CORE, MID_MODEL);
         ui.info.online_status.style.display = "block";
         check_online();
     }
     else{
-        node = new CENode(MODELS.CORE, MODELS.SHERLOCK_CORE);
         ui.info.online_status.style.display = "none";
     }
     node.set_agent_name(user.id+" agent");
@@ -244,6 +243,7 @@ function login(){
     update_ui();
     load_questions();//fetch_questions();
     poll_for_instances();
+    log_cards();
 }
 
 function logout(){
@@ -603,6 +603,49 @@ function check_online(){
     setTimeout(function(){
         check_online();
     }, 1000);
+}
+
+function log_cards(){
+    try{
+        var cards = node.get_instances("card", true);
+        var unlogged_cards = [];
+        for(var i = 0; i < cards.length; i++){
+            if(logged_cards.indexOf(cards[i].name) == -1){
+                unlogged_cards.push(cards[i]);
+            }    
+        }
+        if(unlogged_cards.length == 0){
+            setTimeout(function(){
+               log_cards();
+            }, 1000*3); 
+            return;
+        }  
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "http://logger.cenode.io/cards/mid");
+        xhr.onreadystatechange = function(){
+            if(xhr.readyState == 4 && xhr.status == 200){
+                setTimeout(function(){
+                    for(var i = 0; i < unlogged_cards.length; i++){
+                        logged_cards.push(unlogged_cards[i].name);
+                    }
+                    log_cards();
+                }, 1000*3);
+            }
+            else if(xhr.readyState == 4 && xhr.status != 200){
+                setTimeout(function(){
+                    log_cards();
+                }, 1000*3);
+            }
+        }
+        xhr.send(JSON.stringify(unlogged_cards));
+    }
+    catch(err){
+        console.log(err);
+        setTimeout(function(){
+            log_cards();
+        }, 1000);
+    }
 }
 
 window.onload = function(){
