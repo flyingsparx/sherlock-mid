@@ -10,6 +10,14 @@ var forbid_input = false;
 var multiplayer;
 var last_successful_request = 0;
 
+var log = {
+    recording_presses : false,
+    keypresses : 0,
+    start_time : 0,
+    end_time : 0
+};
+
+
 var MID_MODEL = [
     "conceptualise a ~ MID thing ~ that is an entity and is an imageable thing",
     "conceptualise a ~ place ~ P that is a locatable thing and is an MID thing",
@@ -291,6 +299,8 @@ function key_up(e){
         return false;
     }
     if(e.keyCode == 13){
+        log.recording_presses = false;
+        log.end_time = parseInt(new Date().getTime()/1000);
         send();
     }
     else if(e.keyCode == 38){
@@ -314,6 +324,15 @@ function key_up(e){
         e.preventDefault();
         return false;
     }
+    else{
+        if(log.recording_presses == false){
+            log.recording_presses = true;
+            log.start_time = parseInt(new Date().getTime()/1000);
+            log.keypresses = 0;
+        }
+        log.keypresses++;
+    }
+  
     if(ui.inputs.autofill.checked == true){
         ui.inputs.guess.value = node.guess_next(ui.inputs.text.value);
     }
@@ -374,6 +393,10 @@ function confirm_card(id, content){
 
     add_card("Yes.", true, null, user.id);
     var card = "there is a tell card named 'msg_{uid}' that has '"+content.replace(/'/g, "\\'")+"' as content and is to the agent '"+node.get_agent_name().replace(/'/g, "\\'")+"' and is from the individual '"+user.id+"' and has the timestamp '{now}' as timestamp";
+
+    card+=" and has '"+log.keypresses+"' as number of keystrokes";
+    card+=" and has '"+log.end_time+"' as submit time";
+    card+=" and has '"+log.start_time+"' as start time";
 
     node.add_sentence(card);
     setTimeout(function(){
