@@ -18,12 +18,12 @@ var MID_MODEL = [
     "conceptualise a ~ character ~ C that is an MID thing and has the place P as ~ shrine ~",
     "conceptualise the place P ~ is shrine to ~ the character C",
     "conceptualise a ~ actor ~ A that is an MID thing",
-    "conceptualise a ~ spaceship ~ S that is an MID thing has the place P as ~ fuelling station ~",
+    "conceptualise an ~ alien ~ A that is an MID thing",
+    "conceptualise a ~ spaceship ~ S that is an MID thing and has the place P as ~ fuelling station ~",
     "conceptualise the spaceship S ~ is owned by ~ the character C",
     "conceptualise the character C ~ owns ~ the spaceship S and ~ is played by ~ the actor A and ~ created ~ the alien D and ~ has the dog D as ~ pet ~",
     "conceptualise the actor A ~ plays ~ the character C",
     "conceptualise an ~ organisation ~ O that is an MID thing and has the place P as ~ base ~",
-    "conceptualise an ~ alien ~ A that is an MID thing",
     "conceptualise a ~ dog ~ D that is an MID thing and has the character C as ~ master ~",
     "conceptualise a ~ planet ~ P that is an MID thing",
     "conceptualise the planet P ~ is home to ~ the alien A",
@@ -47,7 +47,6 @@ var MID_MODEL = [
     "there is a character named 'The Fourth Doctor'",
     "there is a character named 'The Tenth Doctor'",
     "there is a character named 'The Eleventh Doctor'",
-    "there is a character named 'The Doctor'",
     "there is a character named 'The Doctor'",
     "there is a character named 'Ianto Jones'",
     "there is a character named 'Captain Jack'",
@@ -91,8 +90,8 @@ var MID_MODEL = [
     // Uncomment the 3 lines below to enable multiplayer using Mycroft as the relay:
     //
     //"there is an agent named 'Mycroft' that has 'http://mycroft.cenode.io' as address",
-    //"there is a tell policy named 'p2' that has 'true' as enabled and has the agent 'Mycroft' as target",
-    //"there is a listen policy named 'p4' that has 'true' as enabled and has the agent 'Mycroft' as target",
+    //"there is a tell policy named 'p1' that has 'true' as enabled and has the agent 'Mycroft' as target",
+    //"there is a listen policy named 'p2' that has 'true' as enabled and has the agent 'Mycroft' as target",
 
     "conceptualise a ~ question ~ Q that has the value V as ~ text ~ and has the value W as ~ value ~ and has the value X as ~ relationship ~",
     "conceptualise the question Q ~ concerns ~ the MID thing C",
@@ -386,22 +385,30 @@ function unconfirm_card(id){
 }
 
 function ask_question_based_on_input(sentence){
-    var ins = node.get_instances("sherlock thing", true);
+    var ins = node.get_instances("MID thing", true);
     var concerns;
     var potentials = {};
-    for(var i = 0; i < ins.length; i++){
-        if(sentence.toLowerCase().indexOf(ins[i].name.toLowerCase()) > -1){
-            concerns = ins[i];
-            break
+    var match = sentence.match(/the ([a-zA-Z0-9 ]*) '([a-zA-Z0-9 ]*)'/);
+    if(match && match[2]){
+        for(var i = 0; i < ins.length; i++){
+            if(ins[i].name.toLowerCase() == match[2].toLowerCase()){
+                concerns = ins[i];
+                break;
+            }
         }
     }
     if(concerns == null){return;}
+    console.log(user.questions[0]);
     for(var i  = 0; i < user.questions.length; i++){
         if(user.questions[i].concerns == concerns.name){
             var state = get_question_state(user.questions[i]);
             if(state != "answered" && asked_questions.indexOf(user.questions[i].text) == -1){
-                if(potentials[state] == null){potentials[state] = [];}
-                potentials[state].push(user.questions[i]);       
+                if(!user.questions[i].relationship || sentence.toLowerCase().indexOf(user.questions[i].relationship.toLowerCase()) == -1){
+                    if(!user.questions[i].value || sentence.toLowerCase().indexOf(user.questions[i].value.toLowerCase()) == -1){
+                        if(potentials[state] == null){potentials[state] = [];}
+                        potentials[state].push(user.questions[i]);       
+                    }
+                }
             }       
         }
     }
@@ -419,8 +426,12 @@ function ask_question_based_on_input(sentence){
         content = potentials.unanswered[0].text;
         asked_questions.push(potentials.unanswered[0].text);
     }
-    card+="'"+content+"' as content.";
-    node.add_sentence(card);
+
+    if(content){
+        card+="'"+content.replace(/'/g, "\\'")+"' as content.";
+        console.log(card);
+        node.add_sentence(card);
+    }
 }
 
 function update_ui(){
@@ -484,7 +495,7 @@ function add_card(content, local, id, author, linked_content, card_type){
 
 function get_question_state(q){
     if(q.responses.length == 0){return "unanswered";}
-    else if(q.responses.length < 2){return "unconfident";}
+    else if(q.responses.length < 3){return "unconfident";}
     else{
         var responses = {};
         var response_vols = [];
