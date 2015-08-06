@@ -10,20 +10,28 @@ var forbid_input = false;
 var multiplayer;
 var last_successful_request = 0;
 
+var log = {
+    recording_presses : false,
+    keypresses : 0,
+    start_time : 0,
+    end_time : 0
+};
+
+
 var MID_MODEL = [
-    "conceptualise a ~ MID thing ~ that is an entity",
+    "conceptualise a ~ MID thing ~ that is an entity and is an imageable thing",
     "conceptualise a ~ place ~ P that is a locatable thing and is an MID thing",
     "conceptualise a ~ city ~ C that is an MID thing",
     "conceptualise the place P ~ is located in ~ the city C",
     "conceptualise a ~ character ~ C that is an MID thing and has the place P as ~ shrine ~",
     "conceptualise the place P ~ is shrine to ~ the character C",
     "conceptualise a ~ actor ~ A that is an MID thing",
-    "conceptualise a ~ spaceship ~ S that is an MID thing has the place P as ~ fuelling station ~",
+    "conceptualise an ~ alien ~ A that is an MID thing",
+    "conceptualise a ~ spaceship ~ S that is an MID thing and has the place P as ~ fuelling station ~",
     "conceptualise the spaceship S ~ is owned by ~ the character C",
     "conceptualise the character C ~ owns ~ the spaceship S and ~ is played by ~ the actor A and ~ created ~ the alien D and ~ has the dog D as ~ pet ~",
     "conceptualise the actor A ~ plays ~ the character C",
     "conceptualise an ~ organisation ~ O that is an MID thing and has the place P as ~ base ~",
-    "conceptualise an ~ alien ~ A that is an MID thing",
     "conceptualise a ~ dog ~ D that is an MID thing and has the character C as ~ master ~",
     "conceptualise a ~ planet ~ P that is an MID thing",
     "conceptualise the planet P ~ is home to ~ the alien A",
@@ -47,7 +55,6 @@ var MID_MODEL = [
     "there is a character named 'The Fourth Doctor'",
     "there is a character named 'The Tenth Doctor'",
     "there is a character named 'The Eleventh Doctor'",
-    "there is a character named 'The Doctor'",
     "there is a character named 'The Doctor'",
     "there is a character named 'Ianto Jones'",
     "there is a character named 'Captain Jack'",
@@ -73,7 +80,7 @@ var MID_MODEL = [
     "there is a place named 'Cardiff Bay'",
     "there is a place named 'Tower of London'",
     "there is a place named 'Baker Street'",
-    "there is a spaceship named 'TARDIS'",
+    "there is a spaceship named 'TARDIS' that has 'http://mid.cenode.io/media/tardis.png' as image",
 
     "there is a rule named r1 that has 'if the character C ~ owns ~ the spaceship S then the spaceship S ~ is owned by ~ the character C' as instruction",
     "there is a rule named r2 that has 'if the spaceship S ~ is owned by ~ the character C then the character C ~ owns ~ the spaceship S' as instruction",
@@ -90,9 +97,9 @@ var MID_MODEL = [
 
     // Uncomment the 3 lines below to enable multiplayer using Mycroft as the relay:
     //
-    //"there is an agent named 'Mycroft' that has 'http://mycroft.cenode.io' as address",
-    //"there is a tell policy named 'p2' that has 'true' as enabled and has the agent 'Mycroft' as target",
-    //"there is a listen policy named 'p4' that has 'true' as enabled and has the agent 'Mycroft' as target",
+    "there is an agent named 'Mycroft' that has 'http://mycroft.cenode.io' as address",
+    "there is a tell policy named 'p1' that has 'true' as enabled and has the agent 'Mycroft' as target",
+    "there is a listen policy named 'p2' that has 'true' as enabled and has the agent 'Mycroft' as target",
 
     "conceptualise a ~ question ~ Q that has the value V as ~ text ~ and has the value W as ~ value ~ and has the value X as ~ relationship ~",
     "conceptualise the question Q ~ concerns ~ the MID thing C",
@@ -202,6 +209,11 @@ function bind_listeners(){
     for(var i = 0; i < ui.view_changers.length; i++){
 	    ui.view_changers[i].onclick = function(e){change_view(e.target.getAttribute("data-view"));};
     }
+    ui.inputs.login_user_id.onkeyup = function(e){
+        if(e.keyCode == 13){
+            login();
+        }
+    };
 }
 
 function change_view(view){
@@ -218,13 +230,12 @@ function login(){
         return;
     }
 
+    node = new CENode(MODELS.CORE, MID_MODEL);
     if(multiplayer){
-        node = new CENode(MODELS.CORE, MID_MODEL);
         ui.info.online_status.style.display = "block";
         check_online();
     }
     else{
-        node = new CENode(MODELS.CORE, MODELS.SHERLOCK_CORE);
         ui.info.online_status.style.display = "none";
     }
     node.set_agent_name(user.id+" agent");
@@ -240,6 +251,7 @@ function login(){
     update_ui();
     load_questions();//fetch_questions();
     poll_for_instances();
+    log_cards();
 }
 
 function logout(){
@@ -287,6 +299,8 @@ function key_up(e){
         return false;
     }
     if(e.keyCode == 13){
+        log.recording_presses = false;
+        log.end_time = parseInt(new Date().getTime()/1000);
         send();
     }
     else if(e.keyCode == 38){
@@ -310,6 +324,15 @@ function key_up(e){
         e.preventDefault();
         return false;
     }
+    else{
+        if(log.recording_presses == false){
+            log.recording_presses = true;
+            log.start_time = parseInt(new Date().getTime()/1000);
+            log.keypresses = 0;
+        }
+        log.keypresses++;
+    }
+  
     if(ui.inputs.autofill.checked == true){
         ui.inputs.guess.value = node.guess_next(ui.inputs.text.value);
     }
@@ -371,6 +394,10 @@ function confirm_card(id, content){
     add_card("Yes.", true, null, user.id);
     var card = "there is a tell card named 'msg_{uid}' that has '"+content.replace(/'/g, "\\'")+"' as content and is to the agent '"+node.get_agent_name().replace(/'/g, "\\'")+"' and is from the individual '"+user.id+"' and has the timestamp '{now}' as timestamp";
 
+    card+=" and has '"+log.keypresses+"' as number of keystrokes";
+    card+=" and has '"+log.end_time+"' as submit time";
+    card+=" and has '"+log.start_time+"' as start time";
+
     node.add_sentence(card);
     setTimeout(function(){
         ask_question_based_on_input(content);
@@ -386,22 +413,30 @@ function unconfirm_card(id){
 }
 
 function ask_question_based_on_input(sentence){
-    var ins = node.get_instances("sherlock thing", true);
+    var ins = node.get_instances("MID thing", true);
     var concerns;
     var potentials = {};
-    for(var i = 0; i < ins.length; i++){
-        if(sentence.toLowerCase().indexOf(ins[i].name.toLowerCase()) > -1){
-            concerns = ins[i];
-            break
+    var match = sentence.match(/the ([a-zA-Z0-9 ]*) '([a-zA-Z0-9 ]*)'/);
+    if(match && match[2]){
+        for(var i = 0; i < ins.length; i++){
+            if(ins[i].name.toLowerCase() == match[2].toLowerCase()){
+                concerns = ins[i];
+                break;
+            }
         }
     }
     if(concerns == null){return;}
+    console.log(user.questions[0]);
     for(var i  = 0; i < user.questions.length; i++){
         if(user.questions[i].concerns == concerns.name){
             var state = get_question_state(user.questions[i]);
             if(state != "answered" && asked_questions.indexOf(user.questions[i].text) == -1){
-                if(potentials[state] == null){potentials[state] = [];}
-                potentials[state].push(user.questions[i]);       
+                if(!user.questions[i].relationship || sentence.toLowerCase().indexOf(user.questions[i].relationship.toLowerCase()) == -1){
+                    if(!user.questions[i].value || sentence.toLowerCase().indexOf(user.questions[i].value.toLowerCase()) == -1){
+                        if(potentials[state] == null){potentials[state] = [];}
+                        potentials[state].push(user.questions[i]);       
+                    }
+                }
             }       
         }
     }
@@ -419,8 +454,12 @@ function ask_question_based_on_input(sentence){
         content = potentials.unanswered[0].text;
         asked_questions.push(potentials.unanswered[0].text);
     }
-    card+="'"+content+"' as content.";
-    node.add_sentence(card);
+
+    if(content){
+        card+="'"+content.replace(/'/g, "\\'")+"' as content.";
+        console.log(card);
+        node.add_sentence(card);
+    }
 }
 
 function update_ui(){
@@ -587,6 +626,49 @@ function check_online(){
     setTimeout(function(){
         check_online();
     }, 1000);
+}
+
+function log_cards(){
+    try{
+        var cards = node.get_instances("card", true);
+        var unlogged_cards = [];
+        for(var i = 0; i < cards.length; i++){
+            if(logged_cards.indexOf(cards[i].name) == -1){
+                unlogged_cards.push(cards[i]);
+            }    
+        }
+        if(unlogged_cards.length == 0){
+            setTimeout(function(){
+               log_cards();
+            }, 1000*3); 
+            return;
+        }  
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "http://logger.cenode.io/cards/mid");
+        xhr.onreadystatechange = function(){
+            if(xhr.readyState == 4 && xhr.status == 200){
+                setTimeout(function(){
+                    for(var i = 0; i < unlogged_cards.length; i++){
+                        logged_cards.push(unlogged_cards[i].name);
+                    }
+                    log_cards();
+                }, 1000*3);
+            }
+            else if(xhr.readyState == 4 && xhr.status != 200){
+                setTimeout(function(){
+                    log_cards();
+                }, 1000*3);
+            }
+        }
+        xhr.send(JSON.stringify(unlogged_cards));
+    }
+    catch(err){
+        console.log(err);
+        setTimeout(function(){
+            log_cards();
+        }, 1000);
+    }
 }
 
 window.onload = function(){
