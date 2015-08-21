@@ -96,7 +96,7 @@ var MID_MODEL = [
     "there is a planet named 'Telos'",
     "there is a planet named 'Raxacoricofallapatorius'",
     "there is a planet named 'Earth'",
-    "there is a dog named 'K9'",
+    "there is a dog named 'K9' that has 'http://mid.cenode.io/media/K9.jpg' as image",
     "there is a city named 'Cardiff'",
     "there is a city named 'London'",
     "there is a city named 'Bristol'",
