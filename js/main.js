@@ -85,7 +85,7 @@ var MID_MODEL = [
     "there is a character named 'Ianto Jones' that has 'http://mid.cenode.io/media/GarethDavidLloydIantoJones.jpg' as image",
     "there is a character named 'John Watson' that has 'http://mid.cenode.io/media/MartinFreemanJohnWatson.jpg' as image",
     "there is a character named 'Rose Tyler' that has 'http://mid.cenode.io/media/BilliePiperRoseTyler.jpg' as image",
-    "there is a character named 'Sarah Jane Smith' that has 'http://mid.cenode.io/media/LisSladenSarahJaneSmith.jpg' as image"",
+    "there is a character named 'Sarah Jane Smith' that has 'http://mid.cenode.io/media/LisSladenSarahJaneSmith.jpg' as image",
     "there is an organisation named 'Torchwood'",
     "there is an organisation named 'UNIT'",
     "there is an alien named 'Dalek' that has 'http://mid.cenode.io/media/Dalek.jpg' as image",
