@@ -162,7 +162,7 @@ var MID_MODEL = [
     "there is a question named q25 that concerns the character 'Davros' and has 'created' as relationship and has 'Which kind of alien was created by Davros?' as text",
     "there is a question named q26 that concerns the place 'Cardiff Bay' and has 'is shrine to' as relationship and has 'Cardiff Bay has a \\'shrine\\' to which Torchwood character?' as text",
     "there is a question named q27 that concerns the character 'Amy Pond' and has 'is played by' as relationship and has 'Who plays Amy Pond?' as text",
-    "there is a question named q28 that concerns the character 'Captain Jack' and has 'is played by' as relationship and has 'Who plays Captain Jack in Doctor Who and Torchwood?' as text",
+    "there is a question named q28 that concerns the character 'Captain Jack Harkness' and has 'is played by' as relationship and has 'Who plays Captain Jack in Doctor Who and Torchwood?' as text",
     "there is a question named q29 that concerns the planet 'Skaro' and has 'is home to' as relationship and has 'What alien race is the planet Skaro home to?' as text",
     "there is a question named q30 that concerns the character 'Rose Tyler' and has 'is played by' as relationship and has 'Who plays Rose Tyler?' as text"
 ];
