@@ -40,10 +40,12 @@ var MID_MODEL = [
     "conceptualise the programme P ~ is filmed in ~ the city C",
     "conceptualise a ~ broadcaster ~ B that is an MID thing",
     "conceptualise the broadcaster B ~ produces ~ the programme P",
+    "conceptualise a ~ favourite character ~ F that is an MID thing and has the character D as ~ preference ~",
+    "conceptualise a ~ scariest alien ~ A that is an MID thing and has the alien A as ~ preference ~",
 
     "there is a programme named 'Doctor Who'",
     "there is a programme named 'Sherlock'",
-    "there is an actor named 'Benedict Cumberbatch' that has 'http://mid.cenode.io/media/BenedictCumberbatch.jpg' as image",
+    "there is an actor named 'Benedict Cumberbatch' that has 'http://mid.cenode.io/media/BenedictCumberbatchSherlockHolmes.jpg' as image",
     "there is an actor named 'Billie Piper' that has 'http://mid.cenode.io/media/BilliePiperRoseTyler.jpg' as image",
     "there is an actor named 'Christopher Eccleston' that has 'http://mid.cenode.io/media/ChristopherEcclestonNinthDoctor.jpg' as image",
     "there is an actor named 'Colin Baker' that has 'http://mid.cenode.io/media/ColinBakerSixthDoctor.jpg' as image",
@@ -85,12 +87,13 @@ var MID_MODEL = [
     "there is a character named 'Davros' that has 'http://mid.cenode.io/media/Davros.jpg' as image",
     "there is a character named 'Gwen Cooper' that has 'http://mid.cenode.io/media/EveMylesGwenCooper.jpg' as image",
     "there is a character named 'Ianto Jones' that has 'http://mid.cenode.io/media/GarethDavidLloydIantoJones.jpg' as image",
+    "there is a character named 'Sherlock Holmes' that has 'http://mid.cenode.io/media/BenedictCumberbatchSherlockHolmes.jpg' as image",
     "there is a character named 'John Watson' that has 'http://mid.cenode.io/media/MartinFreemanJohnWatson.jpg' as image",
     "there is a character named 'Rose Tyler' that has 'http://mid.cenode.io/media/BilliePiperRoseTyler.jpg' as image",
     "there is a character named 'Sarah Jane Smith' that has 'http://mid.cenode.io/media/LisSladenSarahJaneSmith.jpg' as image",
     "there is an organisation named 'Torchwood' that has 'Captain Jack Harkness' as member and has 'Gwen Cooper' as member and has 'Ianto Jones' as member",
     "there is an organisation named 'UNIT' that has 'The Doctor' as scientific advisor",
-    "there is an alien named 'Dalek' that has 'http://mid.cenode.io/media/Dalek.jpg' as image",
+    "there is an alien named 'Daleks' that has 'http://mid.cenode.io/media/Dalek.jpg' as image",
     "there is an alien named 'Cybermen' that has 'http://mid.cenode.io/media/Cyberman.jpg' as image",
     "there is an alien named 'Slitheen' that has 'http://mid.cenode.io/media/Slitheen.jpg' as image",
     "there is an alien named 'Ice Warriors'",
@@ -98,6 +101,7 @@ var MID_MODEL = [
     "there is an alien named 'Weeping Angels'",
     "there is an alien named 'Zygons'",
     "there is a planet named 'Earth'",
+    "there is a planet named 'Gallifrey'",
     "there is a planet named 'Mars'",
     "there is a planet named 'Mondas'",
     "there is a planet named 'Raxacoricofallapatorius'",
@@ -112,6 +116,8 @@ var MID_MODEL = [
     "there is a place named 'Baker Street'",
     "there is a spaceship named 'TARDIS' that has 'http://mid.cenode.io/media/TARDIS.jpg' as image",
     "there is a broadcaster named 'BBC' that produces the programme 'Doctor Who' and produces the programme 'Sherlock'",
+    "there is a favourite character named 'favourite Doctor'",
+    "there is a scariest alien named 'scariest Doctor Who monster'",
 
     "there is a rule named r1 that has 'if the character C ~ owns ~ the spaceship S then the spaceship S ~ is owned by ~ the character C' as instruction",
     "there is a rule named r2 that has 'if the spaceship S ~ is owned by ~ the character C then the character C ~ owns ~ the spaceship S' as instruction",
@@ -162,9 +168,9 @@ var MID_MODEL = [
     "there is a question named q25 that concerns the character 'Davros' and has 'created' as relationship and has 'Which kind of alien was created by Davros?' as text",
     "there is a question named q26 that concerns the place 'Cardiff Bay' and has 'is shrine to' as relationship and has 'Cardiff Bay has a \\'shrine\\' to which Torchwood character?' as text",
     "there is a question named q27 that concerns the character 'Amy Pond' and has 'is played by' as relationship and has 'Who plays Amy Pond?' as text",
-    "there is a question named q28 that concerns the character 'Captain Jack Harkness' and has 'is played by' as relationship and has 'Who plays Captain Jack in Doctor Who and Torchwood?' as text",
-    "there is a question named q29 that concerns the planet 'Skaro' and has 'is home to' as relationship and has 'What alien race is the planet Skaro home to?' as text",
-    "there is a question named q30 that concerns the character 'Rose Tyler' and has 'is played by' as relationship and has 'Who plays Rose Tyler?' as text"
+    "there is a question named q28 that concerns the planet 'Skaro' and has 'is home to' as relationship and has 'What alien race is the planet Skaro home to?' as text",
+    "there is a question named q29 that concerns the favourite character 'favourite Doctor' and has 'preference' as value and has 'Who is your favourite Doctor?' as text",
+    "there is a question named q30 that concerns the scariest alien 'scariest Doctor Who monster' and has 'preference' as value and has 'What is the scariest Doctor Who monster?' as text"
 ];
 
 var settings = {
