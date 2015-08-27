@@ -102,7 +102,7 @@ var MID_MODEL = [
     "there is an alien named 'Zygons' that has 'http://mid.cenode.io/media/Zygon.jpg' as image",
     "there is an alien named 'Master' that has 'http://mid.cenode.io/media/Master.jpg' as image",
     "there is an alien named 'Missy' that has 'http://mid.cenode.io/media/Missy.jpg' as image",
-    "there is an alien named 'Silence' that has 'http://mid.cenode.io/media/Silence.jpg' as image",
+    "there is an alien named 'Silence' that has 'http://mid.cenode.io/media/Silent.jpg' as image",
     "there is a planet named 'Earth'",
     "there is a planet named 'Gallifrey'",
     "there is a planet named 'Mars'",
