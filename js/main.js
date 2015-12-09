@@ -241,11 +241,9 @@ var MID_MODEL = [
     "there is a rule named r11 that has 'if the planet P ~ is home to ~ the alien A then the alien A has the planet P as ~ home planet ~' as instruction",
     "there is a rule named r12 that has 'if the alien A has the planet P as ~ home planet ~ then the planet P ~ is home to ~ the alien A' as instruction",
 
-    // Uncomment the 3 lines below to enable multiplayer using Mycroft as the relay:
-    //
-    "there is an agent named 'Mycroft' that has 'http://mycroft.cenode.io' as address",
-    "there is a tell policy named 'p1' that has 'true' as enabled and has the agent 'Mycroft' as target",
-    "there is a listen policy named 'p2' that has 'true' as enabled and has the agent 'Mycroft' as target",
+    "there is an agent named 'verity' that has 'http://verity.cenode.io' as address",
+    "there is a tell policy named 'p1' that has 'true' as enabled and has the agent 'Verity' as target",
+    "there is a listen policy named 'p2' that has 'true' as enabled and has the agent 'Verity' as target",
 
     "conceptualise a ~ question ~ Q that has the value V as ~ text ~ and has the value W as ~ value ~ and has the value X as ~ relationship ~",
     "conceptualise the question Q ~ concerns ~ the MID thing C",
